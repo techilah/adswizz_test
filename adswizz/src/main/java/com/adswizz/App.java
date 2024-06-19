@@ -3,6 +3,8 @@ package com.adswizz;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import com.adswizz.lib.Download;
 import com.adswizz.lib.DownloadsStatistics;
@@ -46,17 +48,15 @@ public class App {
 
     public static Download[] ParseDownloads() {
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        Download[] downloads = new Download[500];
+        List<Download> downloads = new ArrayList<>();
         BufferedReader reader;
-        int i = 0;
         try {
             reader = new BufferedReader(new FileReader(
                     SecureFtp.class.getClassLoader().getResource("downloads.txt").getFile()));
             String line = reader.readLine();
 
             while (line != null) {
-                downloads[i] = mapper.readValue(line, Download.class);
-                i++;
+                downloads.add(mapper.readValue(line, Download.class));
                 line = reader.readLine();
             }
 
@@ -64,7 +64,8 @@ public class App {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return downloads;
+
+        return downloads.toArray(new Download[downloads.size()]);
     }
 
 }
