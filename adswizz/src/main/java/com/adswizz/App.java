@@ -46,7 +46,7 @@ public class App {
 
     public static Download[] ParseDownloads() {
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        Download[] downloads = new Download[100];
+        Download[] downloads = new Download[500];
         BufferedReader reader;
         int i = 0;
         try {
